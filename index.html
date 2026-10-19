@@ -37,6 +37,21 @@
       <for-element expr="let i=0; i <= 10; i++" timeout="0s" interval="1s" loop="true">
         <p>Looping: {{i}}</p>
       </for-element>
+
+      <!-- Retro elements, rebuilt -->
+      <center-element width="36rem">
+        <p>
+          <font-element size="+2" face="Georgia, 'Times New Roman', serif" color="#ffd84d">
+            Welcome to my homepage
+          </font-element>
+        </p>
+        <p>Counter is now <blink-element>{{counter}}</blink-element></p>
+        <marquee-element speed="70">
+          <span>★ Under construction ★</span>
+          <span>Best viewed in any browser</span>
+          <span>Counter: {{counter}}</span>
+        </marquee-element>
+      </center-element>
     </main>
 
     <script type="module" src="/src/main.ts"></script>

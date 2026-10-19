@@ -201,3 +201,204 @@ button:focus-visible {
     transform: none;
   }
 }
+
+/* ---------- Retro elements, rebuilt ----------
+   Host defaults sit in :where() so any page CSS can override them.
+   All motion lives inside (prefers-reduced-motion: no-preference):
+   without it, blink and marquee are plain static text. */
+
+:where(blink-element, font-element) {
+  display: inline;
+}
+
+/* <center-element> */
+:where(center-element) {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: var(--center-width, none);
+  margin-inline: auto;
+  text-align: center;
+}
+
+:where(center-element) > * {
+  margin-inline: auto;
+}
+
+/* <marquee-element> */
+:where(marquee-element) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  inline-size: 100%;
+}
+
+.marquee-viewport {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.marquee-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 1.5em;
+}
+
+/* The seamless-loop copy only exists while scrolling */
+.marquee-content[aria-hidden],
+.marquee-toggle {
+  display: none;
+}
+
+.marquee-toggle {
+  flex: none;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  font-size: 0.75rem;
+  color: inherit;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+@media (hover: hover) {
+  .marquee-toggle:hover {
+    background: color-mix(in srgb, currentColor 15%, transparent);
+  }
+}
+
+@keyframes ghost-blink {
+  0%,
+  40% {
+    opacity: 1;
+  }
+  50%,
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ghost-marquee-scroll-x {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes ghost-marquee-scroll-y {
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes ghost-marquee-bounce-x {
+  to {
+    transform: translateX(var(--marquee-distance, 0));
+  }
+}
+
+@keyframes ghost-marquee-bounce-y {
+  to {
+    transform: translateY(var(--marquee-distance, 0));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  blink-element {
+    animation: ghost-blink var(--blink-period, 1s) ease-in-out var(--blink-count, 5);
+  }
+
+  .marquee-toggle {
+    display: block;
+  }
+
+  .marquee-viewport {
+    overflow: hidden;
+    container-type: inline-size;
+  }
+
+  marquee-element[data-axis="y"] .marquee-viewport {
+    container-type: size;
+    block-size: var(--marquee-height, 6em);
+  }
+
+  .marquee-track {
+    display: flex;
+    inline-size: max-content;
+    animation: ghost-marquee-scroll-x var(--marquee-duration, 10s) linear
+      var(--marquee-iterations, infinite) forwards;
+  }
+
+  /* Each copy is at least as wide as the box, so two copies always cover it */
+  .marquee-content {
+    flex: none;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    white-space: nowrap;
+    min-inline-size: 100cqi;
+    padding-inline-end: var(--marquee-gap, 3rem);
+  }
+
+  marquee-element[data-behavior="scroll"] .marquee-content[aria-hidden] {
+    display: flex;
+  }
+
+  /* Vertical */
+  marquee-element[data-axis="y"] .marquee-track {
+    flex-direction: column;
+    inline-size: auto;
+    animation-name: ghost-marquee-scroll-y;
+  }
+
+  marquee-element[data-axis="y"] .marquee-content {
+    flex-direction: column;
+    white-space: normal;
+    min-inline-size: 0;
+    min-block-size: 100cqb;
+    padding-inline-end: 0;
+    padding-block-end: var(--marquee-gap, 1.5rem);
+  }
+
+  /* Alternate: bounce between the edges, no copy needed */
+  marquee-element[data-behavior="alternate"] .marquee-track {
+    animation-name: ghost-marquee-bounce-x;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+  }
+
+  marquee-element[data-behavior="alternate"][data-axis="y"] .marquee-track {
+    animation-name: ghost-marquee-bounce-y;
+  }
+
+  marquee-element[data-behavior="alternate"] .marquee-content {
+    min-inline-size: 0;
+    min-block-size: 0;
+    padding: 0;
+  }
+
+  marquee-element[data-reverse] .marquee-track {
+    animation-direction: reverse;
+  }
+
+  marquee-element[data-reverse][data-behavior="alternate"] .marquee-track {
+    animation-direction: alternate-reverse;
+  }
+
+  /* Pause: the button, keyboard focus inside the content, or hovering */
+  marquee-element[paused] .marquee-track,
+  .marquee-viewport:focus-within .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @media (hover: hover) {
+    marquee-element:hover .marquee-track {
+      animation-play-state: paused;
+    }
+  }
+}
