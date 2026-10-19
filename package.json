@@ -1,0 +1,20 @@
+{
+  "name": "ghost",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Debaditya Malakar <debadityamalakar@gmail.com>",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "icons": "bun scripts/rasterize.ts"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/bun": "^1.4.3",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.4"
+  }
+}

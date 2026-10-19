@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <!-- Body: white at the top fading to lavender -->
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.6" stop-color="#e6dcff"/>
+      <stop offset="1" stop-color="#a98bff"/>
+    </linearGradient>
+
+    <!-- Purple glow behind the ghost -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blur"/>
+      <feFlood flood-color="#5000ff" flood-opacity="0.85"/>
+      <feComposite in2="blur" operator="in" result="glow"/>
+      <feMerge>
+        <feMergeNode in="glow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- App-icon background (only used by the "tile" variant) -->
+    <radialGradient id="tile" cx="0.5" cy="0.35" r="0.75">
+      <stop offset="0" stop-color="#2b0d80"/>
+      <stop offset="1" stop-color="#111111"/>
+    </radialGradient>
+  </defs>
+
+  <!--tile-->
+
+  <g filter="url(#glow)">
+    <!-- Body with a wavy hem -->
+    <path fill="url(#body)" d="
+      M48 200 V118
+      C48 70 84 36 128 36
+      C172 36 208 70 208 118
+      V200
+      Q192 236 176 200
+      T144 200 T112 200 T80 200 T48 200 Z"/>
+
+    <!-- Soft highlight on the head -->
+    <path fill="#ffffff" opacity="0.9" d="M72 104 C74 76 96 56 122 54 C100 64 86 82 82 106 Z"/>
+
+    <!-- Eyes -->
+    <ellipse cx="100" cy="118" rx="14" ry="20" fill="#14062e"/>
+    <ellipse cx="156" cy="118" rx="14" ry="20" fill="#14062e"/>
+    <circle cx="105" cy="110" r="5" fill="#ffffff"/>
+    <circle cx="161" cy="110" r="5" fill="#ffffff"/>
+
+    <!-- Cheeks -->
+    <ellipse cx="82" cy="146" rx="11" ry="6" fill="#ff7ad9" opacity="0.45"/>
+    <ellipse cx="174" cy="146" rx="11" ry="6" fill="#ff7ad9" opacity="0.45"/>
+
+    <!-- "Boo" mouth -->
+    <ellipse cx="128" cy="154" rx="9" ry="11" fill="#14062e"/>
+
+    <!-- "< >" pin on the head -->
+    <g transform="translate(170 52)">
+      <rect x="-25" y="-15" width="50" height="30" rx="11" fill="#5000ff" stroke="#ffffff" stroke-width="3"/>
+      <path d="M-7 -7 L-14 0 L-7 7 M7 -7 L14 0 L7 7" fill="none" stroke="#ffffff"
+            stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

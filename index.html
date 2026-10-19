@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>ghost</title>
+    <meta name="description" content="Programming in plain HTML — state, conditionals and loops as custom elements." />
+    <meta name="theme-color" content="#111111" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main id="app">
+      <!-- State + conditional -->
+      <store-element name="counter" val="0"></store-element>
+      <h1 aria-live="polite">{{counter}}</h1>
+      <div class="button-container">
+        <button type="button" id="add">Add</button>
+        <button type="button" id="sub">Sub</button>
+      </div>
+      <if-element expr="{{counter}} > 10">
+        <p>The counter is greater than 10!</p>
+      </if-element>
+
+      <!-- Loop -->
+      <div class="button-container">
+        <button type="button" id="startloop">Start Loop</button>
+        <button type="button" id="stoploop">Stop Loop</button>
+        <button type="button" id="resumeloop">Resume Loop</button>
+        <button type="button" id="resetloop">Reset Loop</button>
+      </div>
+      <for-element expr="let i=0; i <= 10; i++" timeout="0s" interval="1s" loop="true">
+        <p>Looping: {{i}}</p>
+      </for-element>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
